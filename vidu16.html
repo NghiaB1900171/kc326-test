@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script type="text/javascript">
+		function disp_confirm(){
+			var name =prompt("Please enter your name ","")
+			if (name!=null && name!=""){
+				document.write("Hello "  + name + "! How are you today?")
+			}
+		}
+	</script>
+</head>
+<body>
+	<form>
+		<input type="button" onclick="disp_confirm()" value="Display a confirm box" >
+	</form>
+
+</body>
+</html>
