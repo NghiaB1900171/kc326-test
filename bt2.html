@@ -1,238 +1,552 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Đồ thị</title>
-        <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script> -->
-        <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.js"
-            integrity="sha512-+lwWRCGAWhCLRPruF7ruYxRlMQuRD1H9C/Pc/HYcuxachoLufBO7OU66bfFnVsFaHQj3S/CunEimw8alVvkl+Q=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        ></script>
-        
-        <style>
-            .colorpicker {
-                width: 20px;
-                height: 20px;
-            }
-        </style>
-    </head>
 
-    <body>
-        <div>
-            <!-- <canvas id="myChart"></canvas> -->
-            <div class="chart_container">
-                <div class="content">
-                    <center>
-                        <table border="8">
-                            <tr>
-                                <td>
-                                    <h2><b>Các hàm cơ bản</b></h2>
-                                    <ul>
-                                        <li class="chart_type"><b id="bacHai">Đồ thị bậc hai</b></li>
-                                        <li class="chart_type"><b id="bacBa">Đồ thị bậc ba</b></li>
-                                        <li class="chart_type"><b id="bacBon">Đồ thị bậc bốn</b></li>
-                                    </ul>
-                                </td>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đồ thị</title>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.js" integrity="sha512-+lwWRCGAWhCLRPruF7ruYxRlMQuRD1H9C/Pc/HYcuxachoLufBO7OU66bfFnVsFaHQj3S/CunEimw8alVvkl+Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-                                <td>
-                                    <h2><b>Các hàm lượng giác</b></h2>
-                                    <ul>
-                                        <li class="chart_type"><b id="sin">Đồ thị hàm Sin</b></li>
-                                        <li class="chart_type"><b id="cos">Đồ thị hàm Cos</b></li>
-                                        <li class="chart_type"><b id="tan">Đồ thị hàm Tan</b></li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
-                    </center>
-                    <div class="form_data">
-                        <h3>Nhập hệ số</h3>
-                        <form class="coeff-form" role="presentation" autocomplete="off">
-                            <div class="input_group" id="a-coeff">
-                                <label for="number_a">a</label>
-                                <input type="text" class="form-control" id="number_a" />
-                            </div>
 
-                            <div class="input_group" id="b-coeff">
-                                <label for="number_b">b</label>
-                                <input type="text" class="form-control" id="number_b" />
-                            </div>
 
-                            <div class="input_group" id="c-coeff">
-                                <label for="number_c">c</label>
-                                <input type="text" class="form-control" id="number_c" />
-                            </div>
 
-                            <div class="input-group" id="d-coeff">
-                                <label for="number_d">d</label>
-                                <input type="text" class="form-control" id="number_d" />
-                            </div>
-                        </form>
-                    </div>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Open Sans", sans-serif;
+  }
+
+  :root {
+    --white: rgb(219, 238, 255);
+    --black: #000;
+    --primary: rgb(224, 247, 12);
+  }
+
+  .wide {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .background {
+    background: 
+        url("https://wallpaperaccess.com/full/1093309.jpg");
+
+    background-size: cover;
+    background-position: center center;
+   
+  }
+  .header_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header_container img {
+    max-width: 100px;
+    margin-top: 5px;
+    border-radius: 10px;
+  }
+
+  .header_nav {
+    line-height: 50px;
+  }
+
+  .header_nav ul li {
+    display: inline-block;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .3s ease;
+    font-size: 15px;
+    position: relative;
+    border-radius: 5px;
+  }
+
+  .header_nav li:hover {
+    background-color: var(--primary)
+  }
+
+  .header_nav li:hover a {
+    color: var(--black)
+  }
+
+  .header_nav li .sub {
+    position: absolute;
+    background-color: var(--white);
+    width: 100%;
+    border-radius: 5px;
+    margin-top: 5px;
+    display: none;
+    animation: identifier .7s ease;
+    transform-origin: top center;
+  }
+
+  .header_nav li .sub:after {
+    content: '';
+    width: 100px;
+    height: 20px;
+    position: absolute;
+    top: -10px;
+  }
+
+  .slider {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content {
+    margin-left: 25px;
+    text-align: left;
+    font-size: 19px;
+  }
+
+  .container {
+    color: var(--white);
+  }
+
+  .container .about {
+    max-width: 800px;
+
+    line-height: 1.5;
+    padding: 0 5px;
+    border: 2px solid var(--white);
+    padding: 15px;
+    box-shadow: #fff 0px 0px 20px 5px;
+    border-radius: 15px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  @keyframes identifier {
+    from {
+      opacity: 0;
+      transform: rotateX(90deg);
+    }
+
+    to {
+      opacity: 1;
+      transform: rotateX(0);
+    }
+  }
+
+  .header_nav .sub li {
+    display: block;
+    padding: 0 15px;
+  }
+
+  .header_nav ul li:hover .sub {
+    display: block;
+  }
+
+  .header_nav li a {
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.5s ease-in-out;
+    padding: 15px 10px;
+  }
+
+  .header_nav li i {
+    padding-right: 5px;
+  }
+
+  .chart_container {
+    margin-top: 25px;
+  }
+
+  .chart_container ul {
+    text-align: center;
+  }
+
+  .chart_container ul li {
+    display: inline-block;
+    color: rgb(255, 255, 255);
+    list-style: none;
+    padding: 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .chart_container ul li.active {
+    background-color: #00CC00;
+    color: #000;
+  }
+
+  .chart_container h2 {
+    font-weight: 500;
+    text-align: center;
+    margin: 25px;
+    font-size: 35px;
+    color: rgb(209, 7, 7);
+
+  }
+
+  .form_data {
+    margin-top: 25px;
+  }
+
+  .form_data form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+  }
+
+  .form_data input {
+    padding: 5px 3px;
+    border-radius: 5px;
+    font-size: 15px;
+  }
+
+  .form_data h3 {
+    color: rgb(182, 5, 102);
+    text-align: center;
+  }
+
+  .form_data label {
+    color: #000;
+    background-color: hsl(71, 97%, 73%);
+    padding: 3px 10px;
+    border-radius: 15px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  #canvas-container {
+    height: 500px;
+    background-color: rgb(241, 235, 235);
+    margin-top: 25px;
+    border-radius: 5px;
+    padding: 15px;
+  }
+
+  .data_settings {
+    margin-top: 25px;
+  }
+
+  .data_settings form {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .input-group {
+    color: rgb(255, 255, 255);
+  }
+
+  .input-group:first-child {
+    margin: 0 15px;
+  }
+
+  .input-group input {
+    margin-top: 10px;
+    padding: 3px 5px;
+    border-radius: 5px;
+  }
+
+  .input-group button {
+    background-color: #ff5100;
+    padding: 2px 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 900;
+    font-size: 16px;
+    vertical-align: middle;
+  }
+
+  .color_group {
+    display: flex;
+  }
+
+  .colorpicker {
+    border: 3px solid transparent;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+</style>
+
+<body>
+  
+  <div>
+    <canvas id="myChart"></canvas>
+    <div class="chart_container">
+          <div class="content">
+            <center>
+            <table border="8">
+              <tr>
+                <td>
+            <h2><b>Các hàm cơ bản</b></h2>
+            <ul id="menu-container" class="">
+              <li class="graphSelect chart_type active" id="bacHai"><b>Đồ thị bậc hai</b></li>
+              <li class="graphSelect chart_type" id="bacBa"><b>Đồ thị bậc ba</b></li>
+              <li class="graphSelect chart_type" id="bacBon"><b>Đồ thị bậc bốn</b></li>
+            </ul>
+          </td>
+          
+          <td>
+            <h2><b>Các hàm lượng giác</b></h2>
+            <ul>
+              <li class="graphSelect chart_type" id="sin"><b>Đồ thị hàm Sin</b></li>
+              <li class="graphSelect chart_type" id="cos"><b>Đồ thị hàm Cos</b></li>
+              <li class="graphSelect chart_type" id="tan"><b>Đồ thị hàm Tan</b></li>
+            </ul>
+          </td>
+            </tr>
+          </table>
+        </center>
+            <div class="form_data">
+              <h3>Nhập hệ số</h3>
+              <form class="coeff-form" role="presentation" autocomplete="off">
+                <div class="input_group" id="a-coeff">
+                  <label for="number_a">a</label>
+                  <input type="text" class="form-control" id="number_a" />
                 </div>
 
-                <div class="content">
-                    <div id="canvas-container">
-                        <canvas id="myChart"></canvas>
-                    </div>
+                <div class="input_group" id="b-coeff">
+                  <label for="number_b">b</label>
+                  <input type="text" class="form-control" id="number_b" />
                 </div>
 
-                <div class="container">
-                    <span>Màu sắc</span>
-                    <div class="color_group">
-                        <div class="colorpicker" id="AAAAAA"></div>
-                        <div class="colorpicker" id="7f00ff"></div>
-                        <div class="colorpicker" id="8B4513"></div>
-                        <div class="colorpicker" id="8B3A3A"></div>
-                        <div class="colorpicker" id="fffb38"></div>
-                        <div class="colorpicker" id="00FF00"></div>
-                    </div>
+                <div class="input_group" id="c-coeff">
+                  <label for="number_c">c</label>
+                  <input type="text" class="form-control" id="number_c" />
                 </div>
 
+                <div class="input-group" id="d-coeff">
+                  <label for="number_d">d</label>
+                  <input type="text" class="form-control" id="number_d" />
+                </div>
+              </form>
             </div>
+          </div>
+
+          <div class="content">
+            <div id="canvas-container">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+
+
+          <div class="container">
+            <span>Màu sắc</span>
+            <div class="color_group">
+              <div class="colorpicker" id="AAAAAA"></div>
+              <div class="colorpicker" id="7f00ff"></div>
+              <div class="colorpicker" id="8B4513"></div>
+              <div class="colorpicker" id="8B3A3A"></div>
+              <div class="colorpicker" id="fffb38"></div>
+              <div class="colorpicker" id="00FF00"></div>
+            </div>
+          </div>
+
+          </form>
+
         </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  
+  
+  <script type="module">
+    import quadratic from './quadratic.js'
+    import cubic from './cubic.js'
+    import quartic from './quartic.js'
+    import {
+      sinFunction,
+      cosFunction,
+      tanFunction
+    } from './trigonometric.js'
 
-        <script type="module">
-            import quadratic from "./quadratic.js";
-            import cubic from "./cubic.js";
-            import quartic from "./quartic.js";
-            import { sinFunction, cosFunction, tanFunction } from "./trigonometric.js";
-
-            let step = 0.1;
-            let pointRadius = 1.5;
-            let Linecolor = "red";
-            let graphSelected = "bacHai";
-
-            let a = 2;
-            let b = 0;
-            let c = 0;
-            let d = 0;
-
-            const hashURL = window.location.hash.substring(1);
-            if (hashURL !== "") {
-                const coeffs = hashURL.split(",");
-                a = parseFloat(coeffs[0]);
-                b = parseFloat(coeffs[1]);
-                c = parseFloat(coeffs[2]);
-            }
-
-            for (const input of document.querySelectorAll("input")) {
-                switch (input.parentElement.id) {
-                    case "a-coeff":
-                        input.value = String(a);
-                        break;
-                    case "b-coeff":
-                        input.value = String(b);
-                        break;
-                    case "c-coeff":
-                        input.value = String(c);
-                        break;
-                    case "d-coeff":
-                        input.value = String(d);
-                        break;
-                    case "step":
-                        input.value = String(step);
-                        break;
-                    case "pointRadius":
-                        input.value = String(pointRadius);
-                        break;
-                }
-            }
-
-            const ctx = document.getElementById("myChart").getContext("2d");
-            const chart = new Chart(ctx, {
-                type: "scatter",
-                data: [],
-                options: {
-                    maintainAspectRatio: false,
-                    responsive: true,
-                },
-            });
-
-            const drawChart = () => {
-
-                if (step === 0) return;
-
-                switch (graphSelected) {
-                    case "bacHai":
-                        quadratic(a, b, c, step, chart, Linecolor);
-                        break;
-                    case "bacBa":
-                        cubic(a, b, c, d, step, chart, Linecolor);
-                        break;
-                    case "bacBon":
-                        quartic(a, b, c, step, chart, Linecolor);
-                        break;
-                    case "sin":
-                        sinFunction(a, step, chart, Linecolor);
-                        break;
-                    case "cos":
-                        cosFunction(a, step, chart, Linecolor);
-                        break;
-                    case "tan":
-                        tanFunction(a, step, chart, Linecolor);
-                }
-
-                chart.options.elements.point.radius = pointRadius;
-
-                chart.update();
-            };
-
-            drawChart();
+    let coeffDics = {
+      bacHai: ['a-coeff', 'b-coeff', 'c-coeff'],
+      bacBa: ['a-coeff', 'b-coeff', 'c-coeff', 'd-coeff'],
+      bacBon: ['a-coeff', 'b-coeff', 'c-coeff'],
+      sin: [],
+      cos: [],
+      tan: []
+    }
 
 
-            window.addEventListener("input", (event) => {
-                event.target.value = event.target.value.replace(/[^-0-9.]/g, "");
-                if (event.target.value === "") return;
+    let step = 0.1
+    let pointRadius = 1.5
+    let Linecolor = '#000000'
+    let graphSelected = 'bacHai'
 
-                switch (event.target.parentElement.id) {
-                    case "pointRadius":
-                        pointRadius = parseFloat(event.target.value);
-                        break;
-                    case "step":
-                        step = parseFloat(event.target.value);
-                        break;
-                    case "a-coeff":
-                        a = parseFloat(event.target.value);
-                        break;
-                    case "b-coeff":
-                        b = parseFloat(event.target.value);
-                        break;
-                    case "c-coeff":
-                        c = parseFloat(event.target.value);
-                        break;
-                    case "d-coeff":
-                        d = parseFloat(event.target.value);
-                        break;
-                }
-                drawChart();
-            });
-            
-            
+    let a = 2
+    let b = 0
+    let c = 0
+    let d = 0
 
-            for (const color of document.querySelectorAll(".colorpicker")) {
-                color.style.backgroundColor = '#' + color.id
-                color.addEventListener('click', event => {
-                    Linecolor = "#" + event.target.id
-                    drawChart()
-                })
-            }
-             
 
-            for (const graphSelect of document.querySelectorAll(".chart_type")) graphSelect.addEventListener('click', event => {
-                console.log(event.target.id)
-                graphSelected = event.target.id
-                drawChart()
-            })
-            
-            
+    const hashURL = window.location.hash.substring(1)
+    if (hashURL !== '') {
+      const coeffs = hashURL.split(',')
+      a = parseFloat(coeffs[0])
+      b = parseFloat(coeffs[1])
+      c = parseFloat(coeffs[2])
+    }
 
-        </script>
-    </body>
+    for (const input of document.querySelectorAll('input')) {
+      switch (input.parentElement.id) {
+        case 'a-coeff':
+          input.value = String(a)
+          break
+        case 'b-coeff':
+          input.value = String(b)
+          break
+        case 'c-coeff':
+          input.value = String(c)
+          break
+        case 'd-coeff':
+          input.value = String(d)
+          break
+        case 'step':
+          input.value = String(step)
+          break
+        case 'pointRadius':
+          input.value = String(pointRadius)
+          break
+      }
+    }
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'scatter',
+      data: [],
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+      },
+    })
+
+    const drawChart = () => {
+
+      // for (const coeff of document.querySelector('.coeff-form').querySelectorAll('input')) {
+      //   coeff.disabled = !coeffDics[graphSelected].includes(coeff.parentElement.id)
+      // }
+
+      if (step === 0) return
+
+      switch (graphSelected) {
+        case 'bacHai':
+          quadratic(a, b, c, step, chart, Linecolor)
+          break
+        case 'bacBa':
+          cubic(a, b, c, d, step, chart, Linecolor)
+          break
+        case 'bacBon':
+          quartic(a, b, c, step, chart, Linecolor)
+          break
+        case 'sin':
+          sinFunction(a, step, chart, Linecolor)
+          break
+        case 'cos':
+          cosFunction(a, step, chart, Linecolor)
+          break
+        case 'tan':
+          tanFunction(a, step, chart, Linecolor)
+      }
+
+      chart.options.elements.point.radius = pointRadius
+
+      chart.update()
+    }
+
+    drawChart()
+
+    window.addEventListener("focusout", event => {
+      if (event.target.value === '') {
+        event.target.value = '0'
+        switch (event.target.parentElement.id) {
+          case 'a-coeff':
+            a = 0;
+            break;
+          case 'b-coeff':
+            b = 0;
+            break;
+          case 'c-coeff':
+            c = 0;
+            break;
+          case 'd-coeff':
+            d = 0;
+            break;
+          case 'step':
+            event.target.value = step;
+            break;
+          case 'pointRadius':
+            pointRadius = 0;
+            break;
+        }
+        drawChart()
+      }
+    })
+
+
+    window.addEventListener("input", event => {
+
+      event.target.value = event.target.value.replace(/[^-0-9.]/g, '')
+      if (event.target.value === '') return
+
+
+      switch (event.target.parentElement.id) {
+
+        case 'pointRadius':
+          pointRadius = parseFloat(event.target.value)
+          break
+        case 'step':
+          step = parseFloat(event.target.value)
+          break
+        case 'a-coeff':
+          a = parseFloat(event.target.value)
+          break
+        case 'b-coeff':
+          b = parseFloat(event.target.value)
+          break
+        case 'c-coeff':
+          c = parseFloat(event.target.value)
+          break
+        case 'd-coeff':
+          d = parseFloat(event.target.value)
+          break
+      }
+      drawChart()
+    })
+
+    for (let color of document.querySelectorAll('.colorpicker')) color.addEventListener('click', event => {
+      Linecolor = '#' + event.target.id
+      drawChart()
+    })
+
+    for (let graphSelect of document.querySelectorAll('.graphSelect')) graphSelect.addEventListener('click', event => {
+
+      for (let graphSelect of document.querySelectorAll('.graphSelect')) {
+        graphSelect.setAttribute('class', 'graphSelect nav-link')
+      }
+      event.target.setAttribute('class', 'graphSelect nav-link active')
+
+      graphSelected = event.target.id
+
+      drawChart()
+    })
+      
+      
+  </script>
+</body>
+
 </html>
