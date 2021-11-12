@@ -1,189 +1,210 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Đồ thị</title>
-  <script type="text/javascript" src="chart.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.js" integrity="sha512-+lwWRCGAWhCLRPruF7ruYxRlMQuRD1H9C/Pc/HYcuxachoLufBO7OU66bfFnVsFaHQj3S/CunEimw8alVvkl+Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
 </head>
+
 <body>
-  <script>
-import quadratic from './chart_type_modules/quadratic.js'
-import cubic from './chart_type_modules/cubic.js'
-import quartic from './chart_type_modules/quartic.js'
-import { sinFunction, cosFunction, tanFunction } from './chart_type_modules/trigonometric.js'
+  
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+  
+  
+  
+  <script type="module">
+    import quadratic from './quadratic.js'
+    import cubic from './cubic.js'
+    import quartic from './quartic.js'
+    import {
+      sinFunction,
+      cosFunction,
+      tanFunction
+    } from './trigonometric.js'
 
-let coeffDics = {
-  bacHai: ['a-coeff', 'b-coeff', 'c-coeff'],
-  bacBa: ['a-coeff', 'b-coeff', 'c-coeff', 'd-coeff'],
-  bacBon: ['a-coeff', 'b-coeff', 'c-coeff'],
-  sin: [],
-  cos: [],
-  tan: []
-}
-
-
-let step = 0.1
-let pointRadius = 1.5
-let Linecolor = '#000000'
-let graphSelected = 'bacHai'
-
-let a = 2
-let b = 0
-let c = 0
-let d = 0
-
-
-const hashURL = window.location.hash.substring(1)
-if (hashURL !== '') {
-  const coeffs = hashURL.split(',')
-  a = parseFloat(coeffs[0])
-  b = parseFloat(coeffs[1])
-  c = parseFloat(coeffs[2])
-}
-
-for (const input of document.querySelectorAll('input')) {
-  switch (input.parentElement.id) {
-    case 'a-coeff':
-      input.value = String(a)
-      break
-    case 'b-coeff':
-      input.value = String(b)
-      break
-    case 'c-coeff':
-      input.value = String(c)
-      break
-    case 'd-coeff':
-      input.value = String(d)
-      break
-    case 'step':
-      input.value = String(step)
-      break
-    case 'pointRadius':
-      input.value = String(pointRadius)
-      break
-  }
-}
-
-const ctx = document.getElementById('myChart').getContext('2d');
-const chart = new Chart(ctx, {
-  type: 'scatter',
-  data: [],
-  options: {
-    maintainAspectRatio: false,
-    responsive: true,
-  },
-})
-
-const drawChart = () => {
-
-  for (const coeff of document.querySelector('.coeff-form').querySelectorAll('input')) {
-    coeff.disabled = !coeffDics[graphSelected].includes(coeff.parentElement.id)
-  }
-
-  if (step === 0) return
-
-  switch (graphSelected) {
-    case 'bacHai':
-      quadratic(a, b, c, step, chart, Linecolor)
-      break
-    case 'bacBa':
-      cubic(a, b, c, d, step, chart, Linecolor)
-      break
-    case 'bacBon':
-      quartic(a, b, c, step, chart, Linecolor)
-      break
-    case 'sin':
-      sinFunction(a, step, chart, Linecolor)
-      break
-    case 'cos':
-      cosFunction(a, step, chart, Linecolor)
-      break
-    case 'tan':
-      tanFunction(a, step, chart, Linecolor)
-  }
-
-  chart.options.elements.point.radius = pointRadius
-
-  chart.update()
-}
-
-drawChart()
-
-window.addEventListener("focusout", event => {
-  if (event.target.value === '') {
-    event.target.value = '0'
-    switch (event.target.parentElement.id) {
-      case 'a-coeff':
-        a = 0;
-        break;
-      case 'b-coeff':
-        b = 0;
-        break;
-      case 'c-coeff':
-        c = 0;
-        break;
-      case 'd-coeff':
-        d = 0;
-        break;
-      case 'step':
-        event.target.value = step;
-        break;
-      case 'pointRadius':
-        pointRadius = 0;
-        break;
+    let coeffDics = {
+      bacHai: ['a-coeff', 'b-coeff', 'c-coeff'],
+      bacBa: ['a-coeff', 'b-coeff', 'c-coeff', 'd-coeff'],
+      bacBon: ['a-coeff', 'b-coeff', 'c-coeff'],
+      sin: [],
+      cos: [],
+      tan: []
     }
+
+
+    let step = 0.1
+    let pointRadius = 1.5
+    let Linecolor = '#000000'
+    let graphSelected = 'bacHai'
+
+    let a = 2
+    let b = 0
+    let c = 0
+    let d = 0
+
+
+    const hashURL = window.location.hash.substring(1)
+    if (hashURL !== '') {
+      const coeffs = hashURL.split(',')
+      a = parseFloat(coeffs[0])
+      b = parseFloat(coeffs[1])
+      c = parseFloat(coeffs[2])
+    }
+
+    for (const input of document.querySelectorAll('input')) {
+      switch (input.parentElement.id) {
+        case 'a-coeff':
+          input.value = String(a)
+          break
+        case 'b-coeff':
+          input.value = String(b)
+          break
+        case 'c-coeff':
+          input.value = String(c)
+          break
+        case 'd-coeff':
+          input.value = String(d)
+          break
+        case 'step':
+          input.value = String(step)
+          break
+        case 'pointRadius':
+          input.value = String(pointRadius)
+          break
+      }
+    }
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'scatter',
+      data: [],
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+      },
+    })
+
+    const drawChart = () => {
+
+      // for (const coeff of document.querySelector('.coeff-form').querySelectorAll('input')) {
+      //   coeff.disabled = !coeffDics[graphSelected].includes(coeff.parentElement.id)
+      // }
+
+      if (step === 0) return
+
+      switch (graphSelected) {
+        case 'bacHai':
+          quadratic(a, b, c, step, chart, Linecolor)
+          break
+        case 'bacBa':
+          cubic(a, b, c, d, step, chart, Linecolor)
+          break
+        case 'bacBon':
+          quartic(a, b, c, step, chart, Linecolor)
+          break
+        case 'sin':
+          sinFunction(a, step, chart, Linecolor)
+          break
+        case 'cos':
+          cosFunction(a, step, chart, Linecolor)
+          break
+        case 'tan':
+          tanFunction(a, step, chart, Linecolor)
+      }
+
+      chart.options.elements.point.radius = pointRadius
+
+      chart.update()
+    }
+
     drawChart()
-  }
-})
+
+    window.addEventListener("focusout", event => {
+      if (event.target.value === '') {
+        event.target.value = '0'
+        switch (event.target.parentElement.id) {
+          case 'a-coeff':
+            a = 0;
+            break;
+          case 'b-coeff':
+            b = 0;
+            break;
+          case 'c-coeff':
+            c = 0;
+            break;
+          case 'd-coeff':
+            d = 0;
+            break;
+          case 'step':
+            event.target.value = step;
+            break;
+          case 'pointRadius':
+            pointRadius = 0;
+            break;
+        }
+        drawChart()
+      }
+    })
 
 
-window.addEventListener("input", event => {
+    window.addEventListener("input", event => {
 
-  event.target.value = event.target.value.replace(/[^-0-9.]/g, '')
-  if (event.target.value === '') return
+      event.target.value = event.target.value.replace(/[^-0-9.]/g, '')
+      if (event.target.value === '') return
 
 
-  switch (event.target.parentElement.id) {
+      switch (event.target.parentElement.id) {
 
-    case 'pointRadius':
-      pointRadius = parseFloat(event.target.value)
-      break
-    case 'step':
-      step = parseFloat(event.target.value)
-      break
-    case 'a-coeff':
-      a = parseFloat(event.target.value)
-      break
-    case 'b-coeff':
-      b = parseFloat(event.target.value)
-      break
-    case 'c-coeff':
-      c = parseFloat(event.target.value)
-      break
-    case 'd-coeff':
-      d = parseFloat(event.target.value)
-      break
-  }
-  drawChart()
-})
+        case 'pointRadius':
+          pointRadius = parseFloat(event.target.value)
+          break
+        case 'step':
+          step = parseFloat(event.target.value)
+          break
+        case 'a-coeff':
+          a = parseFloat(event.target.value)
+          break
+        case 'b-coeff':
+          b = parseFloat(event.target.value)
+          break
+        case 'c-coeff':
+          c = parseFloat(event.target.value)
+          break
+        case 'd-coeff':
+          d = parseFloat(event.target.value)
+          break
+      }
+      drawChart()
+    })
 
-for (let color of document.querySelectorAll('.colorpicker')) color.addEventListener('click', event => {
-  Linecolor = '#' + event.target.id
-  drawChart()
-})
+    for (let color of document.querySelectorAll('.colorpicker')) color.addEventListener('click', event => {
+      Linecolor = '#' + event.target.id
+      drawChart()
+    })
 
-for (let graphSelect of document.querySelectorAll('.graphSelect')) graphSelect.addEventListener('click', event => {
+    for (let graphSelect of document.querySelectorAll('.graphSelect')) graphSelect.addEventListener('click', event => {
 
-  for (let graphSelect of document.querySelectorAll('.graphSelect')) {
-    graphSelect.setAttribute('class', 'graphSelect nav-link')
-  }
-  event.target.setAttribute('class', 'graphSelect nav-link active')
+      for (let graphSelect of document.querySelectorAll('.graphSelect')) {
+        graphSelect.setAttribute('class', 'graphSelect nav-link')
+      }
+      event.target.setAttribute('class', 'graphSelect nav-link active')
 
-  graphSelected = event.target.id
+      graphSelected = event.target.id
 
-  drawChart()
-})
-</script>
+      drawChart()
+    })
+  </script>
 </body>
+
 </html>
