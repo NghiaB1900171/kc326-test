@@ -19,6 +19,82 @@
   
   <div>
     <canvas id="myChart"></canvas>
+    <div class="chart_container">
+          <div class="content">
+            <center>
+            <table border="8">
+              <tr>
+                <td>
+            <h2><b>Các hàm cơ bản</b></h2>
+            <ul id="menu-container" class="">
+              <li class="graphSelect chart_type active" id="bacHai"><b>Đồ thị bậc hai</b></li>
+              <li class="graphSelect chart_type" id="bacBa"><b>Đồ thị bậc ba</b></li>
+              <li class="graphSelect chart_type" id="bacBon"><b>Đồ thị bậc bốn</b></li>
+            </ul>
+          </td>
+          
+          <td>
+            <h2><b>Các hàm lượng giác</b></h2>
+            <ul>
+              <li class="graphSelect chart_type" id="sin"><b>Đồ thị hàm Sin</b></li>
+              <li class="graphSelect chart_type" id="cos"><b>Đồ thị hàm Cos</b></li>
+              <li class="graphSelect chart_type" id="tan"><b>Đồ thị hàm Tan</b></li>
+            </ul>
+          </td>
+            </tr>
+          </table>
+        </center>
+            <div class="form_data">
+              <h3>Nhập hệ số</h3>
+              <form class="coeff-form" role="presentation" autocomplete="off">
+                <div class="input_group" id="a-coeff">
+                  <label for="number_a">a</label>
+                  <input type="text" class="form-control" id="number_a" />
+                </div>
+
+                <div class="input_group" id="b-coeff">
+                  <label for="number_b">b</label>
+                  <input type="text" class="form-control" id="number_b" />
+                </div>
+
+                <div class="input_group" id="c-coeff">
+                  <label for="number_c">c</label>
+                  <input type="text" class="form-control" id="number_c" />
+                </div>
+
+                <div class="input-group" id="d-coeff">
+                  <label for="number_d">d</label>
+                  <input type="text" class="form-control" id="number_d" />
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="content">
+            <div id="canvas-container">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+
+
+          <div class="container">
+            <span>Màu sắc</span>
+            <div class="color_group">
+              <div class="colorpicker" id="AAAAAA"></div>
+              <div class="colorpicker" id="7f00ff"></div>
+              <div class="colorpicker" id="8B4513"></div>
+              <div class="colorpicker" id="8B3A3A"></div>
+              <div class="colorpicker" id="fffb38"></div>
+              <div class="colorpicker" id="00FF00"></div>
+            </div>
+          </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
   
   
@@ -204,6 +280,8 @@
 
       drawChart()
     })
+      
+      
   </script>
 </body>
 
