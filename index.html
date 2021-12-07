@@ -1,20 +1,73 @@
-<html>
-<head> <title> Vidu 2 </title> </head>
-<body>
-	<b> Doan van ban in dam</b>
-	<br>
-	<strong> Doan van ban nhan manh </strong>
-	<br>
-	<big> Doan van ban loai big </big>
-	<br>
-	<em> Doan van ban lam noi bat </em>
-	<br>
-	<i> Doan van ban in nghieng </i>
-	<br>
-	<small> Doan van ban loai small </small>
-	<br>
-	Doan van ban co <sub>chi so duoi</sub>
-	<br>
-	Doan van ban co <sup>chi so tren</sup>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>YC 2</title>
+
+	<style>
+		.led-ctrlall-btn {
+			font-size: 20px;
+		}
+		.led-btn {
+			font-size: 20px;
+		}
+		table {
+			margin-left: 460px;
+		}
+		button:hover {background-color: #65ec2b;}
+		.menu {
+				text-align: center;
+				padding: 80px;
+		}
+		.led-ctrlall-btn {
+			background-color: #FF6A6A;
+		}
+		
+	</style>
+
+
+</head>
+
+<body background="https://my-quyen.github.io/KC326-test/background.jpg">
+	
+	<div class="menu">
+
+		<div>
+			<button class="led-ctrlall-btn" type="button" id="ON">Toggle all to ON</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="led-ctrlall-btn" type="button" id="OFF">Toggle all to OFF</button>
+		</div>
+		<br>
+	<table cellspacing="30" >
+		<tr>
+		<div class="control">
+			<td><img class="led-control" id="led-control0" src="../picture/lightoff.png" alt="" width="70"></td>
+			<td><img class="led-control" id="led-control1" src="../picture/lightoff.png" alt="" width="70"></td>
+			<td><img class="led-control" id="led-control2"  src="../picture/lightoff.png" alt="" width="70"></td>
+			<td><img class="led-control" id="led-control3"  src="../picture/lightoff.png" alt="" width="70"></td>
+		</div>
+		</tr>
+			<tr>
+		<div class="led-btn-container">
+
+			<td><button class="led-btn" id="led0">Led 1</button></td>
+			<td><button class="led-btn" id="led1">Led 2</button></td>
+			<td><button class="led-btn" id="led2">Led 3</button></td>
+			<td><button class="led-btn" id="led3">Led 4</button></td>
+		</div>
+		</tr></table>
+		<div>
+			<img class="led-brightness" src="../picture/lightoff.png" alt="" width="60">
+			<input type="range" min="0" max="1023" value="512" class="slider" name="mySlider">
+		</div>
+
+	</div>
+	
+
+	<script src="app.js"></script>
+
 </body>
+
 </html>
